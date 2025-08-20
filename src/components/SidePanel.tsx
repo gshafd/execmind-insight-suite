@@ -1,21 +1,36 @@
-import { Calendar, Lightbulb, FileText, Bell, MessageSquare } from "lucide-react";
+import { useState } from "react";
+import { Calendar, Lightbulb, FileText, Bell, MessageSquare, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
 export const SidePanel = () => {
+  const [showChatBubble, setShowChatBubble] = useState(false);
+
+  const handleInvokeExecMind = () => {
+    setShowChatBubble(true);
+  };
+
+  const closeChatBubble = () => {
+    setShowChatBubble(false);
+  };
+
   return (
-    <aside className="fixed left-0 top-[73px] h-[calc(100vh-73px)] w-80 bg-executive-charcoal border-r border-executive-accent p-6">
-      <div className="space-y-6">
-        {/* Quick Invoke */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-executive-gold uppercase tracking-wider">
-            Quick Actions
-          </h3>
-          <Button className="w-full bg-gradient-accent text-executive-navy font-semibold hover:shadow-glow transition-all duration-300">
-            <MessageSquare className="mr-2 h-4 w-4" />
-            Invoke ExecMind
-          </Button>
-        </div>
+    <>
+      <aside className="fixed left-0 top-[73px] h-[calc(100vh-73px)] w-80 bg-executive-charcoal border-r border-executive-accent p-6">
+        <div className="space-y-6">
+          {/* Quick Invoke */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-executive-gold uppercase tracking-wider">
+              Quick Actions
+            </h3>
+            <Button 
+              onClick={handleInvokeExecMind}
+              className="w-full bg-gradient-accent text-executive-navy font-semibold hover:shadow-glow transition-all duration-300"
+            >
+              <MessageSquare className="mr-2 h-4 w-4" />
+              Invoke ExecMind
+            </Button>
+          </div>
 
         {/* Shortcuts */}
         <div className="space-y-3">
@@ -74,7 +89,31 @@ export const SidePanel = () => {
             </div>
           </div>
         </div>
-      </div>
-    </aside>
+        </div>
+      </aside>
+
+      {/* Chat Bubble Overlay */}
+      {showChatBubble && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-executive-charcoal border border-executive-accent rounded-lg p-6 max-w-md w-full mx-4 shadow-premium">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2">
+                <MessageSquare className="h-5 w-5 text-executive-gold" />
+                <h3 className="text-lg font-semibold text-foreground">ExecMind</h3>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={closeChatBubble}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-foreground">Hey Marc, let me know what's on your mind today…</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 };

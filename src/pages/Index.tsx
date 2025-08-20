@@ -16,7 +16,7 @@ const Index = () => {
             </div>
             <div className="text-right">
               <div className="text-sm text-muted-foreground">Today</div>
-              <div className="text-lg font-semibold text-executive-gold">December 16, 2024</div>
+              <div className="text-lg font-semibold text-executive-gold">September 4, 2025</div>
             </div>
           </div>
         </div>
