@@ -18,8 +18,8 @@ All colors MUST be HSL.
     --popover: 220 15% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 45 100% 50%;
-    --primary-foreground: 220 20% 8%;
+    --primary: 270 85% 47%;
+    --primary-foreground: 210 40% 98%;
 
     --secondary: 180 65% 45%;
     --secondary-foreground: 210 40% 98%;
@@ -35,12 +35,12 @@ All colors MUST be HSL.
 
     --border: 220 15% 18%;
     --input: 220 15% 18%;
-    --ring: 45 100% 50%;
+    --ring: 270 85% 47%;
 
     /* Executive Design Tokens */
     --executive-navy: 220 20% 8%;
     --executive-charcoal: 220 15% 12%;
-    --executive-gold: 45 100% 50%;
+    --executive-gold: 270 85% 47%;
     --executive-teal: 180 65% 45%;
     --executive-accent: 220 15% 18%;
     --executive-surface: 220 15% 15%;
