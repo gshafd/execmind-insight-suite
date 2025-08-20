@@ -11,6 +11,9 @@ import IdeaCapture from "./pages/IdeaCapture";
 import TopicSuggestions from "./pages/TopicSuggestions";
 import BookExcerpts from "./pages/BookExcerpts";
 import WeeklySummary from "./pages/WeeklySummary";
+import TodaysMeetings from "./pages/TodaysMeetings";
+import IdeasInbox from "./pages/IdeasInbox";
+import WeeklyWrapUp from "./pages/WeeklyWrapUp";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,9 @@ const App = () => (
           <Route path="/topic-suggestions" element={<TopicSuggestions />} />
           <Route path="/book-excerpts" element={<BookExcerpts />} />
           <Route path="/weekly-summary" element={<WeeklySummary />} />
+          <Route path="/todays-meetings" element={<TodaysMeetings />} />
+          <Route path="/ideas-inbox" element={<IdeasInbox />} />
+          <Route path="/weekly-wrap-up" element={<WeeklyWrapUp />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
