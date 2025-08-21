@@ -145,10 +145,8 @@ const Index = () => {
                         <SelectValue placeholder="Select an AI agent" />
                       </SelectTrigger>
                       <SelectContent className="bg-executive-charcoal border-executive-accent">
-                        <SelectItem value="gpt-4" className="text-foreground">GPT-4 Strategic Advisor</SelectItem>
-                        <SelectItem value="claude" className="text-foreground">Claude Executive Assistant</SelectItem>
-                        <SelectItem value="gemini" className="text-foreground">Gemini Analytics Agent</SelectItem>
-                        <SelectItem value="custom" className="text-foreground">Custom AI Agent</SelectItem>
+                        <SelectItem value="fd-ryze-2" className="text-foreground">FD Ryze 2.0</SelectItem>
+                        <SelectItem value="fd-ryze-infinity" className="text-foreground">FD Ryze Infinity</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
