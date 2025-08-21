@@ -2,6 +2,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { DashboardTiles } from "@/components/DashboardTiles";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Users, Clock, Star } from "lucide-react";
+import { format } from "date-fns";
 
 const Index = () => {
   return (
@@ -16,7 +17,7 @@ const Index = () => {
             </div>
             <div className="text-right">
               <div className="text-sm text-muted-foreground">Today</div>
-              <div className="text-lg font-semibold text-executive-gold">September 4, 2025</div>
+              <div className="text-lg font-semibold text-executive-gold">{format(new Date(), 'MMMM d, yyyy')}</div>
             </div>
           </div>
         </div>
