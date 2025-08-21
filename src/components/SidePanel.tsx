@@ -227,7 +227,7 @@ export const SidePanel = () => {
                   className={`border-executive-accent ${isRecording ? 'bg-destructive text-destructive-foreground animate-pulse' : ''}`}
                 >
                   <Mic className="mr-2 h-4 w-4" />
-                  {isRecording ? 'Recording...' : 'Voice Input'}
+                  {isRecording ? 'Recording...' : 'Start Recording'}
                 </Button>
                 <Button variant="outline" className="border-executive-accent">
                   <Camera className="mr-2 h-4 w-4" />
