@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Calendar, Lightbulb, FileText, Bell, MessageSquare, X, Mic, Camera, Upload, Send, Archive, UserPlus } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Calendar, Lightbulb, FileText, Bell, MessageSquare, X, Mic, Camera, Upload, Send, Archive, UserPlus, Home } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -17,6 +17,7 @@ interface PendingAction {
 
 export const SidePanel = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showChatBubble, setShowChatBubble] = useState(false);
   const [showExecMindModal, setShowExecMindModal] = useState(false);
   const [showActionModal, setShowActionModal] = useState<PendingAction | null>(null);
@@ -88,10 +89,32 @@ export const SidePanel = () => {
     }
   };
 
+  const isHomePage = location.pathname === "/" || location.pathname === "";
+
+  const handleGoHome = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <aside className="fixed left-0 top-[73px] h-[calc(100vh-73px)] w-80 bg-executive-charcoal border-r border-executive-accent p-6">
         <div className="space-y-6">
+          {/* Home Button */}
+          <div className="mb-4">
+            <Button 
+              onClick={handleGoHome}
+              variant="ghost"
+              className={`w-full justify-start text-foreground hover:bg-executive-accent hover-scale transition-all duration-300 animate-fade-in ${
+                isHomePage 
+                  ? 'bg-executive-purple/20 text-executive-purple border border-executive-purple/30 shadow-purple-glow' 
+                  : 'hover:shadow-glow'
+              }`}
+            >
+              <Home className="mr-3 h-4 w-4" />
+              <span className="text-sm font-medium">Home</span>
+            </Button>
+          </div>
+
           {/* Quick Invoke */}
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-executive-gold uppercase tracking-wider">

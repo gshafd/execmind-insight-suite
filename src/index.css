@@ -41,6 +41,7 @@ All colors MUST be HSL.
     --executive-navy: 220 20% 8%;
     --executive-charcoal: 220 15% 12%;
     --executive-gold: 270 85% 47%;
+    --executive-purple: 270 85% 47%;
     --executive-teal: 180 65% 45%;
     --executive-accent: 220 15% 18%;
     --executive-surface: 220 15% 15%;
@@ -54,6 +55,7 @@ All colors MUST be HSL.
     --shadow-premium: 0 10px 40px -10px hsl(var(--executive-navy) / 0.4);
     --shadow-card: 0 4px 20px -4px hsl(var(--executive-navy) / 0.3);
     --shadow-glow: 0 0 20px hsl(var(--executive-gold) / 0.2);
+    --shadow-purple-glow: 0 0 15px hsl(var(--executive-purple) / 0.3);
 
     --radius: 0.5rem;
 

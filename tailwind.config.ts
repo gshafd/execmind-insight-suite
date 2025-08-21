@@ -66,6 +66,7 @@ export default {
 					navy: 'hsl(var(--executive-navy))',
 					charcoal: 'hsl(var(--executive-charcoal))',
 					gold: 'hsl(var(--executive-gold))',
+					purple: 'hsl(var(--executive-purple))',
 					teal: 'hsl(var(--executive-teal))',
 					accent: 'hsl(var(--executive-accent))',
 					surface: 'hsl(var(--executive-surface))'
@@ -79,7 +80,8 @@ export default {
 			boxShadow: {
 				'premium': 'var(--shadow-premium)',
 				'card': 'var(--shadow-card)',
-				'glow': 'var(--shadow-glow)'
+				'glow': 'var(--shadow-glow)',
+				'purple-glow': 'var(--shadow-purple-glow)'
 			},
 			fontFamily: {
 				'inter': ['Inter', 'system-ui', 'sans-serif'],
