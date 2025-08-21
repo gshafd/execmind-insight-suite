@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Calendar, Lightbulb, FileText, Bell, MessageSquare, X, Mic, Camera, Upload, Send, Archive, UserPlus, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Calendar, Lightbulb, FileText, Bell, MessageSquare, X, Mic, Camera, Upload, Send, Archive, UserPlus } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
@@ -17,8 +17,6 @@ interface PendingAction {
 
 export const SidePanel = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
   const [showChatBubble, setShowChatBubble] = useState(false);
   const [showExecMindModal, setShowExecMindModal] = useState(false);
   const [showActionModal, setShowActionModal] = useState<PendingAction | null>(null);
@@ -94,22 +92,6 @@ export const SidePanel = () => {
     <>
       <aside className="fixed left-0 top-[73px] h-[calc(100vh-73px)] w-80 bg-executive-charcoal border-r border-executive-accent p-6">
         <div className="space-y-6">
-          {/* Home Button */}
-          <div className="mb-4">
-            <Button 
-              onClick={() => navigate('/')}
-              variant="ghost"
-              className={`w-full justify-start transition-all duration-300 hover-scale ${
-                isHomePage 
-                  ? 'bg-executive-accent text-executive-gold shadow-glow' 
-                  : 'text-foreground hover:bg-executive-accent hover:text-executive-gold'
-              }`}
-            >
-              <Home className="mr-3 h-4 w-4" />
-              Home
-            </Button>
-          </div>
-
           {/* Quick Invoke */}
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-executive-gold uppercase tracking-wider">
