@@ -125,7 +125,7 @@ export const SidePanel = () => {
               className="w-full bg-gradient-accent text-executive-navy font-semibold hover:shadow-glow transition-all duration-300 hover-scale"
             >
               <MessageSquare className="mr-2 h-4 w-4" />
-              Invoke ExecMind
+              Quick Capture
             </Button>
           </div>
 
