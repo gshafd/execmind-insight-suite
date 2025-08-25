@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Mic, MicOff, Save, Share2, Calendar, Brain } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { X, RotateCcw } from "lucide-react";
 
 interface VoiceAssistantDialogProps {
   open: boolean;
@@ -21,6 +20,16 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   const [transcription, setTranscription] = useState("");
   const [aiResponse, setAiResponse] = useState("");
   const [phase, setPhase] = useState<"listening" | "processing" | "response">("listening");
+
+  // Reset state when dialog opens
+  useEffect(() => {
+    if (open) {
+      setIsListening(false);
+      setTranscription("");
+      setAiResponse("");
+      setPhase("listening");
+    }
+  }, [open]);
 
   const toggleListening = () => {
     if (!isListening) {
@@ -107,12 +116,19 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
     setAiResponse(responses[mode].content);
   };
 
+  const handleReset = () => {
+    setIsListening(false);
+    setTranscription("");
+    setAiResponse("");
+    setPhase("listening");
+  };
+
   const WaveformAnimation = () => (
     <div className="flex items-center justify-center space-x-1 h-12">
       {[...Array(8)].map((_, i) => (
         <div
           key={i}
-          className={`bg-executive-purple rounded-full transition-all duration-300 ${
+          className={`bg-assistant-accent rounded-full transition-all duration-300 ${
             isListening 
               ? 'animate-pulse h-8 w-1' 
               : 'h-2 w-1'
@@ -130,42 +146,37 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
     <div className="flex items-center justify-center h-12">
       <div className={`rounded-full transition-all duration-1000 ${
         phase === "processing" 
-          ? 'bg-executive-purple w-8 h-8 animate-pulse shadow-purple-glow' 
-          : 'bg-executive-purple/30 w-4 h-4'
+          ? 'bg-assistant-accent w-8 h-8 animate-pulse shadow-assistant-glow' 
+          : 'bg-assistant-accent/30 w-4 h-4'
       }`} />
     </div>
   );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg bg-background/80 backdrop-blur-xl border border-executive-purple/20 shadow-purple-glow">
-        <DialogHeader>
-          <DialogTitle className="flex items-center space-x-2 text-foreground">
-            {mode === "post-meeting" ? (
-              <>
-                <Mic className="h-5 w-5 text-executive-purple" />
-                <span>Post-Meeting Insight Assistant</span>
-              </>
-            ) : (
-              <>
-                <Brain className="h-5 w-5 text-executive-purple" />
-                <span>Pre-Meeting Memory Assistant</span>
-                <Badge className="bg-executive-purple/20 text-executive-purple border-executive-purple/30">
-                  Prep Mode
-                </Badge>
-              </>
-            )}
+      <DialogContent className="sm:max-w-lg bg-assistant-bg border border-assistant-accent/20 shadow-assistant-glow">
+        <DialogHeader className="flex flex-row items-center justify-between">
+          <DialogTitle className="text-assistant-accent font-medium">
+            {mode === "post-meeting" ? "Post-Meeting Insight Assistant" : "Pre-Meeting Memory Assistant"}
           </DialogTitle>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleReset}
+            className="text-assistant-accent/60 hover:text-assistant-accent hover:bg-assistant-accent/10"
+          >
+            <RotateCcw className="h-4 w-4" />
+          </Button>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-4 p-3">
           {/* Voice Capture Section */}
-          <div className="bg-executive-surface/50 rounded-lg p-6 border border-executive-purple/10">
+          <div className="bg-assistant-bg/80 rounded p-4 border border-assistant-accent/20">
             <div className="text-center space-y-4">
               {phase === "listening" && (
                 <>
                   <WaveformAnimation />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-assistant-accent">
                     {isListening ? "Listening... speak your question" : "Click to start speaking"}
                   </p>
                 </>
@@ -174,51 +185,44 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
               {phase === "processing" && (
                 <>
                   <PulsingOrb />
-                  <p className="text-sm text-executive-purple">Processing your question...</p>
+                  <p className="text-sm text-assistant-accent">Processing your question...</p>
                 </>
               )}
 
               {phase === "response" && (
-                <div className="text-sm text-executive-gold">
-                  ✨ Response ready
+                <div className="text-sm text-assistant-accent">
+                  Response ready
                 </div>
               )}
 
               <Button
                 onClick={toggleListening}
                 variant={isListening ? "destructive" : "default"}
-                className={`rounded-full w-16 h-16 ${
+                className={`w-full ${
                   isListening 
-                    ? "bg-red-500 hover:bg-red-600" 
-                    : "bg-executive-purple hover:bg-executive-purple/80 shadow-purple-glow"
+                    ? "bg-red-500 hover:bg-red-600 text-white" 
+                    : "bg-assistant-accent hover:bg-assistant-accent/80 text-assistant-bg"
                 }`}
               >
-                {isListening ? (
-                  <MicOff className="h-6 w-6" />
-                ) : (
-                  <Mic className="h-6 w-6" />
-                )}
+                {isListening ? "Stop Listening" : "Start Speaking"}
               </Button>
             </div>
           </div>
 
           {/* Transcription Display */}
           {transcription && (
-            <div className="bg-executive-navy/50 rounded-lg p-4 border border-executive-teal/20">
-              <h4 className="text-sm font-medium text-executive-teal mb-2">Live Transcription:</h4>
-              <p className="text-sm text-foreground">{transcription}</p>
+            <div className="bg-assistant-bg/60 rounded p-3 border border-assistant-accent/20">
+              <h4 className="text-xs font-medium text-assistant-accent/80 mb-2">Live Transcription:</h4>
+              <p className="text-sm text-assistant-accent">{transcription}</p>
             </div>
           )}
 
           {/* AI Response */}
           {aiResponse && (
-            <div className="bg-executive-surface/80 rounded-lg p-6 border border-executive-gold/20">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-executive-gold rounded-full animate-pulse" />
-                  <h4 className="text-sm font-medium text-executive-gold">AI Assistant Response</h4>
-                </div>
-                <div className="prose prose-sm text-foreground whitespace-pre-line">
+            <div className="bg-assistant-bg/60 rounded p-4 border border-assistant-accent/20">
+              <div className="space-y-3">
+                <h4 className="text-sm font-medium text-assistant-accent">AI Assistant Response</h4>
+                <div className="text-sm text-assistant-accent whitespace-pre-line leading-relaxed">
                   {aiResponse}
                 </div>
               </div>
@@ -227,24 +231,13 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
           {/* Action Buttons */}
           {phase === "response" && (
-            <div className="flex justify-between items-center pt-4 border-t border-executive-accent">
+            <div className="flex justify-between items-center pt-3 border-t border-assistant-accent/20">
               <div className="flex space-x-2">
-                <Button variant="outline" size="sm" className="border-executive-teal text-executive-teal hover:bg-executive-teal/10">
-                  <Save className="h-4 w-4 mr-2" />
-                  {mode === "post-meeting" ? "Save as Note" : "Save in CEO Memory Bank"}
+                <Button variant="outline" size="sm" className="border-assistant-accent/40 text-assistant-accent hover:bg-assistant-accent/10">
+                  {mode === "post-meeting" ? "Save as Note" : "Save in Memory Bank"}
                 </Button>
-                <Button variant="outline" size="sm" className="border-executive-gold text-executive-gold hover:bg-executive-gold/10">
-                  {mode === "post-meeting" ? (
-                    <>
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Share with Team
-                    </>
-                  ) : (
-                    <>
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Attach to Calendar
-                    </>
-                  )}
+                <Button variant="outline" size="sm" className="border-assistant-accent/40 text-assistant-accent hover:bg-assistant-accent/10">
+                  {mode === "post-meeting" ? "Share with Team" : "Attach to Calendar"}
                 </Button>
               </div>
             </div>

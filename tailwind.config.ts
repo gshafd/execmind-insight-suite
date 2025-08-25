@@ -70,6 +70,10 @@ export default {
 					teal: 'hsl(var(--executive-teal))',
 					accent: 'hsl(var(--executive-accent))',
 					surface: 'hsl(var(--executive-surface))'
+				},
+				assistant: {
+					bg: '#181818',
+					accent: '#00E0FF'
 				}
 			},
 			backgroundImage: {
@@ -81,7 +85,8 @@ export default {
 				'premium': 'var(--shadow-premium)',
 				'card': 'var(--shadow-card)',
 				'glow': 'var(--shadow-glow)',
-				'purple-glow': 'var(--shadow-purple-glow)'
+				'purple-glow': 'var(--shadow-purple-glow)',
+				'assistant-glow': '0 0 20px #00E0FF40'
 			},
 			fontFamily: {
 				'inter': ['Inter', 'system-ui', 'sans-serif'],
