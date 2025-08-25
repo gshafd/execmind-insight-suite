@@ -349,8 +349,11 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
       {/* Action Modals */}
       {activeModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+          className="fixed inset-0 flex items-center justify-center animate-fade-in"
+          style={{ 
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            zIndex: 9999
+          }}
           onClick={closeModal}
         >
           <div 
