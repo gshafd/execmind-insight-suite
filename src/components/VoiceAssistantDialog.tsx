@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { X, RotateCcw } from "lucide-react";
+import { X, RotateCcw, Check, Share, Calendar } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface VoiceAssistantDialogProps {
   open: boolean;
@@ -20,6 +21,9 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   const [transcription, setTranscription] = useState("");
   const [aiResponse, setAiResponse] = useState("");
   const [phase, setPhase] = useState<"listening" | "processing" | "response">("listening");
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({ icon: "", text: "" });
+  const { toast } = useToast();
 
   // Reset state when dialog opens
   useEffect(() => {
@@ -121,6 +125,36 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
     setTranscription("");
     setAiResponse("");
     setPhase("listening");
+  };
+
+  const handleSaveAsNote = () => {
+    setModalContent({ icon: "✅", text: "Note Saved Successfully" });
+    setShowModal(true);
+    setTimeout(() => {
+      setShowModal(false);
+    }, 2000);
+  };
+
+  const handleShareWithTeam = () => {
+    toast({
+      title: "📤 Shared with Team",
+      duration: 2000,
+    });
+  };
+
+  const handleAddToCalendar = () => {
+    setModalContent({ icon: "📅", text: "Added to your calendar" });
+    setShowModal(true);
+    setTimeout(() => {
+      setShowModal(false);
+    }, 2000);
+  };
+
+  const handleSaveInMemory = () => {
+    toast({
+      title: "✅ Saved in Memory",
+      duration: 2000,
+    });
   };
 
   const WaveformAnimation = () => (
@@ -238,17 +272,74 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
           {phase === "response" && (
             <div className="flex justify-between items-center pt-3 border-t" style={{ borderColor: '#00E0FF33' }}>
               <div className="flex space-x-2">
-                <Button variant="outline" size="sm" className="border hover:bg-transparent" style={{ borderColor: '#00E0FF66', color: '#00E0FF' }}>
-                  {mode === "post-meeting" ? "Save as Note" : "Save in Memory Bank"}
-                </Button>
-                <Button variant="outline" size="sm" className="border hover:bg-transparent" style={{ borderColor: '#00E0FF66', color: '#00E0FF' }}>
-                  {mode === "post-meeting" ? "Share with Team" : "Attach to Calendar"}
-                </Button>
+                <button
+                  onClick={mode === "post-meeting" ? handleSaveAsNote : handleSaveInMemory}
+                  className="px-3 py-2 text-sm font-medium rounded-md border transition-all duration-200 hover:shadow-md active:scale-95"
+                  style={{
+                    borderColor: '#00E0FF66',
+                    color: '#00E0FF',
+                    backgroundColor: 'transparent',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#00E0FF11';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  {mode === "post-meeting" ? "Save as Note" : "Save in Memory"}
+                </button>
+                <button
+                  onClick={mode === "post-meeting" ? handleShareWithTeam : handleAddToCalendar}
+                  className="px-3 py-2 text-sm font-medium rounded-md border transition-all duration-200 hover:shadow-md active:scale-95"
+                  style={{
+                    borderColor: '#00E0FF66',
+                    color: '#00E0FF',
+                    backgroundColor: 'transparent',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#00E0FF11';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  {mode === "post-meeting" ? "Share with Team" : "Add to Calendar"}
+                </button>
               </div>
             </div>
           )}
         </div>
       </DialogContent>
+      
+      {/* Success Modal */}
+      {showModal && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+        >
+          <div 
+            className="bg-dark border rounded-lg p-6 text-center animate-fade-in"
+            style={{ 
+              backgroundColor: '#181818', 
+              borderColor: '#00E0FF33',
+              maxWidth: '320px',
+              animation: 'fadeIn 0.3s ease-out'
+            }}
+          >
+            <div className="text-3xl mb-3">{modalContent.icon}</div>
+            <p className="text-sm font-medium" style={{ color: '#00E0FF' }}>
+              {modalContent.text}
+            </p>
+          </div>
+        </div>
+      )}
     </Dialog>
   );
 };
