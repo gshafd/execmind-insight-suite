@@ -10,12 +10,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TrendingUp, Users, Clock, Star, Plus } from "lucide-react";
 import { format } from "date-fns";
-
 const Index = () => {
   const [capabilityName, setCapabilityName] = useState("");
   const [capabilityDescription, setCapabilityDescription] = useState("");
   const [selectedAgent, setSelectedAgent] = useState("");
-
   const handleAddCapability = () => {
     // Handle adding the capability
     console.log({
@@ -28,8 +26,7 @@ const Index = () => {
     setCapabilityDescription("");
     setSelectedAgent("");
   };
-  return (
-    <DashboardLayout>
+  return <DashboardLayout>
       <div className="space-y-6">
         {/* Welcome Section */}
         <div className="bg-gradient-card border-executive-accent rounded-lg p-6 shadow-premium">
@@ -39,7 +36,7 @@ const Index = () => {
               <p className="text-muted-foreground mt-1">Your CEO command center for strategic leadership and operational excellence</p>
             </div>
             <div className="text-right">
-              <div className="text-sm text-muted-foreground">Week of</div>
+              
               <div className="text-lg font-semibold text-executive-gold">{format(new Date(), 'MMMM d, yyyy')}</div>
             </div>
           </div>
@@ -103,11 +100,7 @@ const Index = () => {
             <h2 className="text-xl font-semibold text-foreground">CEO Command Center</h2>
             <Dialog>
               <DialogTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="border-executive-accent text-foreground hover:bg-executive-accent hover-scale transition-all duration-200"
-                >
+                <Button variant="outline" size="sm" className="border-executive-accent text-foreground hover:bg-executive-accent hover-scale transition-all duration-200">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Capability
                 </Button>
@@ -122,24 +115,11 @@ const Index = () => {
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-foreground">Name of the Capability</Label>
-                    <Input
-                      id="name"
-                      placeholder="e.g., Strategic Planning Assistant"
-                      value={capabilityName}
-                      onChange={(e) => setCapabilityName(e.target.value)}
-                      className="bg-executive-surface border-executive-accent text-foreground"
-                    />
+                    <Input id="name" placeholder="e.g., Strategic Planning Assistant" value={capabilityName} onChange={e => setCapabilityName(e.target.value)} className="bg-executive-surface border-executive-accent text-foreground" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="description" className="text-foreground">Description of the Capability</Label>
-                    <Textarea
-                      id="description"
-                      placeholder="Describe what this capability will do and how it will help..."
-                      value={capabilityDescription}
-                      onChange={(e) => setCapabilityDescription(e.target.value)}
-                      className="bg-executive-surface border-executive-accent text-foreground resize-none"
-                      rows={3}
-                    />
+                    <Textarea id="description" placeholder="Describe what this capability will do and how it will help..." value={capabilityDescription} onChange={e => setCapabilityDescription(e.target.value)} className="bg-executive-surface border-executive-accent text-foreground resize-none" rows={3} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="agent" className="text-foreground">Connect an AI Agent</Label>
@@ -160,10 +140,7 @@ const Index = () => {
                       Cancel
                     </Button>
                   </DialogTrigger>
-                  <Button 
-                    onClick={handleAddCapability}
-                    className="bg-gradient-accent text-executive-navy hover:shadow-glow transition-all duration-300"
-                  >
+                  <Button onClick={handleAddCapability} className="bg-gradient-accent text-executive-navy hover:shadow-glow transition-all duration-300">
                     Add Capability
                   </Button>
                 </div>
@@ -173,8 +150,6 @@ const Index = () => {
           <DashboardTiles />
         </div>
       </div>
-    </DashboardLayout>
-  );
+    </DashboardLayout>;
 };
-
 export default Index;
