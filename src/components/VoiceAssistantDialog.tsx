@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { X, RotateCcw, Check, Share, Calendar, Database } from "lucide-react";
@@ -25,52 +25,69 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
   const [modalStep, setModalStep] = useState<"initial" | "confirmation">("initial");
-  const [recognition, setRecognition] = useState<any>(null);
+  const recognitionRef = useRef<any>(null);
+  const isRecognitionActiveRef = useRef(false);
   const { toast } = useToast();
 
   const teams = ["HR Team", "Strategy Team", "Marketing Team", "Product Team"];
 
   // Initialize speech recognition
   useEffect(() => {
-    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      const speechRecognition = new SpeechRecognition();
-      
-      speechRecognition.continuous = true;
-      speechRecognition.interimResults = true;
-      speechRecognition.lang = 'en-US';
-      
-      speechRecognition.onresult = (event: any) => {
-        let finalTranscript = '';
-        let interimTranscript = '';
-        
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript;
-          } else {
-            interimTranscript += transcript;
-          }
+    if (typeof window === 'undefined') return;
+    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) return;
+
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const rec = new SpeechRecognition();
+
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = 'en-US';
+
+    rec.onresult = (event: any) => {
+      let finalTranscript = '';
+      let interimTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
         }
-        
-        setTranscription(finalTranscript + interimTranscript);
-      };
-      
-      speechRecognition.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
-        setIsListening(false);
-        setPhase("listening");
-      };
-      
-      speechRecognition.onend = () => {
-        if (isListening) {
-          speechRecognition.start(); // Restart if we're still supposed to be listening
-        }
-      };
-      
-      setRecognition(speechRecognition);
-    }
-  }, [isListening]);
+      }
+      setTranscription(finalTranscript + interimTranscript);
+    };
+
+    rec.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      isRecognitionActiveRef.current = false;
+      setIsListening(false);
+      setPhase("listening");
+    };
+
+    rec.onstart = () => {
+      isRecognitionActiveRef.current = true;
+      setIsListening(true);
+    };
+
+    rec.onend = () => {
+      isRecognitionActiveRef.current = false;
+      setIsListening(false);
+    };
+
+    recognitionRef.current = rec;
+
+    return () => {
+      try {
+        rec.onresult = null;
+        rec.onerror = null;
+        rec.onend = null;
+        rec.onstart = null;
+        if (isRecognitionActiveRef.current) rec.stop();
+      } catch {}
+      recognitionRef.current = null;
+      isRecognitionActiveRef.current = false;
+    };
+  }, []);
 
   // Reset state when dialog opens
   useEffect(() => {
@@ -84,20 +101,23 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
       setModalStep("initial");
       
       // Stop recognition if it's running
-      if (recognition) {
-        recognition.stop();
+      if (recognitionRef.current && isRecognitionActiveRef.current) {
+        try { recognitionRef.current.stop(); } catch {}
       }
+      isRecognitionActiveRef.current = false;
     }
-  }, [open, recognition]);
+  }, [open]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (recognition) {
-        recognition.stop();
+      if (recognitionRef.current && isRecognitionActiveRef.current) {
+        try { recognitionRef.current.stop(); } catch {}
       }
+      recognitionRef.current = null;
+      isRecognitionActiveRef.current = false;
     };
-  }, [recognition]);
+  }, []);
 
   // Auto-dismiss modals after 3 seconds
   useEffect(() => {
@@ -111,28 +131,34 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   }, [activeModal]);
 
   const toggleListening = () => {
-    if (!recognition) {
+    const rec = recognitionRef.current;
+    if (!rec) {
       alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
       return;
     }
 
-    if (!isListening) {
-      setIsListening(true);
+    if (!isRecognitionActiveRef.current) {
       setPhase("listening");
       setTranscription("");
       setAiResponse("");
-      
       try {
-        recognition.start();
-      } catch (error) {
-        console.error('Failed to start speech recognition:', error);
-        setIsListening(false);
-        setPhase("listening");
+        rec.start();
+      } catch (error: any) {
+        if (error?.name === 'InvalidStateError') {
+          console.warn('Recognition already started, ignoring start');
+        } else {
+          console.error('Failed to start speech recognition:', error);
+          setIsListening(false);
+          setPhase("listening");
+        }
       }
     } else {
-      setIsListening(false);
-      recognition.stop();
-      
+      try {
+        rec.stop();
+      } catch (e) {
+        console.error('Failed to stop speech recognition:', e);
+      }
+
       if (transcription.trim()) {
         setPhase("processing");
         setTimeout(() => {
@@ -196,6 +222,10 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   };
 
   const handleReset = () => {
+    if (recognitionRef.current && isRecognitionActiveRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+    }
+    isRecognitionActiveRef.current = false;
     setIsListening(false);
     setTranscription("");
     setAiResponse("");
@@ -300,7 +330,7 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
                 <>
                   <WaveformAnimation />
                   <p className="text-sm" style={{ color: '#00E0FF' }}>
-                    {isListening ? "Listening... speak your question" : "Click to start speaking"}
+                    {isRecognitionActiveRef.current || isListening ? "Listening... speak your question" : "Click to start speaking"}
                   </p>
                 </>
               )}
@@ -328,7 +358,7 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
                   border: 'none'
                 }}
               >
-                {isListening ? "Stop Listening" : "Start Speaking"}
+                {isRecognitionActiveRef.current || isListening ? "Stop Listening" : "Start Speaking"}
               </Button>
             </div>
           </div>
