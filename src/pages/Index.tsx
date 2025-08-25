@@ -36,10 +36,10 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground">Good afternoon, Marc</h1>
-              <p className="text-muted-foreground mt-1">Your intelligent executive companion is ready to assist</p>
+              <p className="text-muted-foreground mt-1">Your CEO command center for strategic leadership and operational excellence</p>
             </div>
             <div className="text-right">
-              <div className="text-sm text-muted-foreground">Today</div>
+              <div className="text-sm text-muted-foreground">Week of</div>
               <div className="text-lg font-semibold text-executive-gold">{format(new Date(), 'MMMM d, yyyy')}</div>
             </div>
           </div>
@@ -51,22 +51,24 @@ const Index = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground flex items-center">
                 <TrendingUp className="mr-2 h-4 w-4" />
-                Active Projects
+                Revenue Growth
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-executive-gold">12</div>
+              <div className="text-2xl font-bold text-executive-gold">+18%</div>
+              <p className="text-xs text-muted-foreground">QoQ</p>
             </CardContent>
           </Card>
           <Card className="bg-gradient-card border-executive-accent">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground flex items-center">
                 <Users className="mr-2 h-4 w-4" />
-                Team Members
+                Leadership Team
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-executive-teal">47</div>
+              <div className="text-2xl font-bold text-executive-teal">12</div>
+              <p className="text-xs text-muted-foreground">Direct Reports</p>
             </CardContent>
           </Card>
           <Card className="bg-gradient-card border-executive-accent">
@@ -77,19 +79,20 @@ const Index = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">18</div>
-              <p className="text-xs text-muted-foreground">Meetings</p>
+              <div className="text-2xl font-bold text-foreground">23</div>
+              <p className="text-xs text-muted-foreground">Strategic Meetings</p>
             </CardContent>
           </Card>
           <Card className="bg-gradient-card border-executive-accent">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground flex items-center">
                 <Star className="mr-2 h-4 w-4" />
-                Efficiency
+                Employee NPS
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-executive-gold">94%</div>
+              <div className="text-2xl font-bold text-executive-gold">68</div>
+              <p className="text-xs text-muted-foreground">+5 vs Q3</p>
             </CardContent>
           </Card>
         </div>
@@ -97,7 +100,7 @@ const Index = () => {
         {/* Main Dashboard Tiles */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-foreground">ExecMind Capabilities</h2>
+            <h2 className="text-xl font-semibold text-foreground">CEO Command Center</h2>
             <Dialog>
               <DialogTrigger asChild>
                 <Button 
@@ -113,7 +116,7 @@ const Index = () => {
                 <DialogHeader>
                   <DialogTitle className="text-foreground">Add New Capability</DialogTitle>
                   <DialogDescription className="text-muted-foreground">
-                    Create a new AI-powered capability for your executive dashboard.
+                    Create a new strategic capability for your CEO command center.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">

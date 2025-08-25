@@ -7,18 +7,18 @@ import { ClipboardCheck, Send, Calendar, CheckCircle, AlertCircle, Users, Clock 
 
 export default function MeetingSummary() {
   const meetingData = {
-    title: "Q4 Strategic Planning Session",
-    date: "Today, 2:00 PM - 3:30 PM",
-    attendees: ["Sarah Chen (CFO)", "David Park (CTO)", "Lisa Rodriguez (VP Sales)"],
+    title: "Board Strategy Session",
+    date: "Today, 9:00 AM - 11:30 AM",
+    attendees: ["Marc Johnson (CEO)", "Sarah Chen (CFO)", "David Williams (CTO)", "Lisa Zhang (CPO)", "Board Directors"],
     keyDecisions: [
-      "Approved $2M investment in AI infrastructure",
-      "Launch new product line by Q2 2024",
-      "Hire 15 additional engineers across teams"
+      "Approved APAC expansion with $15M Q2 budget allocation",
+      "Authorized culture transformation taskforce formation",
+      "Confirmed AI innovation budget of $15M for FY25"
     ],
     actionItems: [
-      { task: "Draft budget proposal for AI investment", assignee: "Sarah", due: "Friday", status: "pending" },
-      { task: "Create product roadmap timeline", assignee: "David", due: "Next Tuesday", status: "pending" },
-      { task: "Begin recruitment for engineering roles", assignee: "Lisa", due: "Next Week", status: "in-progress" }
+      { task: "Finalize APAC market entry strategy", assignee: "Sarah", due: "Dec 5", status: "pending" },
+      { task: "Launch culture transformation initiative", assignee: "David", due: "Dec 15", status: "in-progress" },
+      { task: "Complete AI adoption roadmap", assignee: "Lisa", due: "Nov 30", status: "completed" }
     ]
   };
 

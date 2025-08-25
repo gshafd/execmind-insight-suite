@@ -26,24 +26,24 @@ export const SidePanel = () => {
   const [pendingActions, setPendingActions] = useState<PendingAction[]>([
     {
       id: "1",
-      title: "Follow-up with Sarah on Q4 budget",
-      description: "Review the proposed Q4 budget allocation and discuss the 15% increase request for the Product division. Key areas: hiring plan, technology infrastructure, and market expansion costs.",
+      title: "Review APAC expansion budget ($15M allocation)",
+      description: "Board decision requires detailed review of Q2 expansion plan for Asia-Pacific operations. Focus on market entry strategy, local partnerships, and regulatory compliance costs.",
       dueDate: "Due in 2 hours",
       priority: "high",
       completed: false
     },
     {
       id: "2", 
-      title: "Review board presentation",
-      description: "Final review of the quarterly board presentation deck. Focus on financial performance slides, strategic initiatives update, and competitive landscape analysis.",
+      title: "Approve culture transformation taskforce charter",
+      description: "Finalize the charter and leadership structure for the company-wide culture transformation initiative. Key focus on values alignment, change management approach, and success metrics.",
       dueDate: "Due tomorrow",
       priority: "medium",
       completed: false
     },
     {
       id: "3",
-      title: "Send book excerpt to team",
-      description: "Share selected chapters from 'The Innovator's Dilemma' with the leadership team ahead of next week's strategy session. Include discussion questions.",
+      title: "Share leadership excerpt from 'The Infinite Game'",
+      description: "Send key insights about sustainable leadership practices to the executive team. Highlight sections on finite vs infinite mindset for upcoming strategy retreat.",
       dueDate: "Due Friday", 
       priority: "low",
       completed: false
@@ -141,7 +141,7 @@ export const SidePanel = () => {
                 className="w-full justify-start text-foreground hover:bg-executive-accent hover-scale transition-all duration-200"
               >
                 <Calendar className="mr-3 h-4 w-4" />
-                Today's Meetings
+                Investor Call Prep
               </Button>
               <Button 
                 variant="ghost" 
@@ -149,8 +149,8 @@ export const SidePanel = () => {
                 className="w-full justify-start text-foreground hover:bg-executive-accent hover-scale transition-all duration-200"
               >
                 <Lightbulb className="mr-3 h-4 w-4" />
-                Ideas Inbox
-                <Badge className="ml-auto bg-executive-teal text-white animate-pulse">3</Badge>
+                Strategic Initiatives
+                <Badge className="ml-auto bg-executive-teal text-white animate-pulse">5</Badge>
               </Button>
               <Button 
                 variant="ghost" 
@@ -158,7 +158,7 @@ export const SidePanel = () => {
                 className="w-full justify-start text-foreground hover:bg-executive-accent hover-scale transition-all duration-200"
               >
                 <FileText className="mr-3 h-4 w-4" />
-                Weekly Wrap-up
+                Leadership Dashboard
               </Button>
             </div>
           </div>

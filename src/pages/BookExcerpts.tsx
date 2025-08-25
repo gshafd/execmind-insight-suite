@@ -14,39 +14,39 @@ export default function BookExcerpts() {
   const recentBooks = [
     {
       id: 1,
-      title: "Atomic Habits",
-      author: "James Clear",
-      category: "Productivity",
-      excerptsSent: 12,
-      engagement: "89%",
-      keyTopics: ["Habit Formation", "Behavioral Change", "Personal Development"]
+      title: "The Infinite Game",
+      author: "Simon Sinek",
+      category: "Leadership",
+      excerptsSent: 5,
+      engagement: "96%",
+      keyTopics: ["Sustainable Leadership", "Purpose-Driven Culture", "Long-term Thinking"]
     },
     {
       id: 2,
-      title: "Good to Great",
-      author: "Jim Collins",
-      category: "Business Strategy",
-      excerptsSent: 8,
+      title: "Multipliers",
+      author: "Liz Wiseman",
+      category: "Leadership Development",
+      excerptsSent: 4,
       engagement: "92%",
-      keyTopics: ["Leadership", "Business Excellence", "Organizational Transformation"]
+      keyTopics: ["Talent Development", "Team Amplification", "Leadership Intelligence"]
     },
     {
       id: 3,
-      title: "The Innovator's Dilemma",
-      author: "Clayton Christensen",
-      category: "Innovation",
-      excerptsSent: 6,
-      engagement: "87%",
-      keyTopics: ["Disruptive Innovation", "Technology", "Market Strategy"]
+      title: "The Culture Catalyst",
+      author: "S. Chris Edmonds",
+      category: "Organizational Culture",
+      excerptsSent: 3,
+      engagement: "88%",
+      keyTopics: ["Culture Transformation", "Values Alignment", "Performance Culture"]
     }
   ];
 
   const teamMembers = [
     { name: "Sarah Chen", role: "CFO", department: "Finance" },
-    { name: "David Park", role: "CTO", department: "Technology" },
-    { name: "Lisa Rodriguez", role: "VP Sales", department: "Sales" },
-    { name: "Michael Johnson", role: "VP Operations", department: "Operations" },
-    { name: "Rachel Kim", role: "VP Marketing", department: "Marketing" }
+    { name: "David Williams", role: "CTO", department: "Technology" },
+    { name: "Lisa Zhang", role: "CPO", department: "Product" },
+    { name: "Michael Rodriguez", role: "COO", department: "Operations" },
+    { name: "Rachel Kim", role: "CHRO", department: "People & Culture" }
   ];
 
   return (

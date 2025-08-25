@@ -14,30 +14,30 @@ export default function IdeaCapture() {
   const recentIdeas = [
     {
       id: 1,
-      title: "AI-powered customer sentiment analysis dashboard",
-      description: "Real-time monitoring of customer feedback across all channels",
-      category: "Product Innovation",
+      title: "AI-First Customer Experience Platform",
+      description: "Develop an integrated AI platform that personalizes every customer touchpoint, from onboarding to support, increasing retention by 25%",
+      category: "Innovation",
       priority: "high",
       date: "2 hours ago",
-      tags: ["AI", "Customer Experience", "Analytics"]
+      tags: ["AI", "Customer Experience", "Revenue Growth"]
     },
     {
       id: 2,
-      title: "Employee wellness initiative with biometric tracking",
-      description: "Comprehensive wellness program using wearable technology",
-      category: "HR & Culture",
-      priority: "medium",
+      title: "LATAM Joint Venture Strategy",
+      description: "Explore strategic partnerships in Latin America through joint ventures, targeting Mexico and Brazil markets for 2025 expansion",
+      category: "Expansion",
+      priority: "high",
       date: "Yesterday",
-      tags: ["Wellness", "HR", "Technology"]
+      tags: ["Global Expansion", "Partnerships", "Market Entry"]
     },
     {
       id: 3,
-      title: "Sustainability reporting automation platform",
-      description: "Automated ESG reporting with real-time environmental metrics",
-      category: "Operations",
-      priority: "high",
+      title: "Leaders as Coaches Program",
+      description: "Train 100 managers in coaching methodologies over 6 months to improve employee engagement and retention",
+      category: "Culture",
+      priority: "medium",
       date: "2 days ago",
-      tags: ["ESG", "Automation", "Compliance"]
+      tags: ["Leadership Development", "Employee Engagement", "Culture"]
     }
   ];
 

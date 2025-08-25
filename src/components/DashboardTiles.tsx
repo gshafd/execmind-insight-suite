@@ -20,55 +20,55 @@ export const DashboardTiles = () => {
     {
       id: "meeting-summary",
       title: "Post-Meeting Summary",
-      description: "Process and organize meeting insights",
+      description: "Board sessions, investor calls, leadership syncs",
       icon: ClipboardCheck,
       gradient: "from-executive-teal to-executive-gold",
-      stats: { completed: 12, pending: 3 },
+      stats: { completed: 8, pending: 2 },
       route: "/meeting-summary"
     },
     {
       id: "meeting-brief",
       title: "Pre-Meeting Brief",
-      description: "Strategic preparation for upcoming discussions",
+      description: "Client meetings, policy roundtables, townhalls",
       icon: Calendar,
       gradient: "from-executive-gold to-executive-teal",
-      stats: { meetings: 5, insights: 8 },
+      stats: { meetings: 5, insights: 12 },
       route: "/meeting-brief"
     },
     {
       id: "idea-capture",
-      title: "Idea Capture",
-      description: "Quick capture and intelligent categorization",
+      title: "Strategic Idea Capture",
+      description: "Innovation themes, expansion ideas, culture initiatives",
       icon: Lightbulb,
       gradient: "from-executive-navy to-executive-teal",
-      stats: { captured: 24, shortlisted: 7 },
+      stats: { captured: 18, prioritized: 6 },
       route: "/idea-capture"
     },
     {
       id: "topic-suggestions",
-      title: "Friday Notes & Insights",
-      description: "Curated topics and strategic suggestions",
+      title: "Weekly CEO Insights",
+      description: "Employee engagement, competitor watch, market trends",
       icon: TrendingUp,
       gradient: "from-executive-charcoal to-executive-gold",
-      stats: { suggestions: 6, implemented: 4 },
+      stats: { insights: 9, actionable: 5 },
       route: "/topic-suggestions"
     },
     {
       id: "book-excerpts",
-      title: "Book Excerpt Sharing",
-      description: "Share wisdom with your network",
+      title: "Leadership Excerpt Sharing",
+      description: "Strategic insights for culture and performance",
       icon: BookOpen,
       gradient: "from-executive-teal to-executive-navy",
-      stats: { sent: 18, engaged: 12 },
+      stats: { sent: 15, engaged: 11 },
       route: "/book-excerpts"
     },
     {
       id: "weekly-wrap",
-      title: "Weekly Executive Summary",
-      description: "Comprehensive week overview and planning",
+      title: "Executive Performance Dashboard",
+      description: "Revenue KPIs, people metrics, strategic focus",
       icon: FileText,
       gradient: "from-executive-gold to-executive-charcoal",
-      stats: { coverage: 95, actions: 8 },
+      stats: { coverage: 98, actions: 12 },
       route: "/weekly-summary"
     }
   ];
