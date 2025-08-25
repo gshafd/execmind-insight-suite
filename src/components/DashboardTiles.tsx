@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { 
   Calendar, 
   ClipboardCheck, 
@@ -8,13 +9,19 @@ import {
   Clock,
   Users,
   FileText,
-  Star
+  Star,
+  Mic,
+  Brain
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { VoiceAssistantDialog } from "./VoiceAssistantDialog";
 
 export const DashboardTiles = () => {
   const navigate = useNavigate();
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [assistantMode, setAssistantMode] = useState<"post-meeting" | "pre-meeting">("post-meeting");
 
   const tiles = [
     {
@@ -73,16 +80,23 @@ export const DashboardTiles = () => {
     }
   ];
 
+  const handleAIAssistant = (e: React.MouseEvent, mode: "post-meeting" | "pre-meeting") => {
+    e.stopPropagation();
+    setAssistantMode(mode);
+    setAssistantOpen(true);
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {tiles.map((tile) => {
-        const Icon = tile.icon;
-        return (
-          <Card 
-            key={tile.id}
-            className="bg-gradient-card border-executive-accent hover:shadow-premium transition-all duration-300 cursor-pointer group"
-            onClick={() => navigate(tile.route)}
-          >
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tiles.map((tile) => {
+          const Icon = tile.icon;
+          return (
+            <Card 
+              key={tile.id}
+              className="bg-gradient-card border-executive-accent hover:shadow-premium transition-all duration-300 cursor-pointer group relative overflow-hidden"
+              onClick={() => navigate(tile.route)}
+            >
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className={`p-3 rounded-lg bg-gradient-to-r ${tile.gradient}`}>
@@ -115,10 +129,45 @@ export const DashboardTiles = () => {
               <div className="mt-3 bg-executive-surface p-2 rounded text-xs text-muted-foreground">
                 Last updated: 15 minutes ago
               </div>
+              
+              {/* AI Assistant Buttons */}
+              {(tile.id === "meeting-summary" || tile.id === "meeting-brief") && (
+                <div className="mt-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className={`w-full border-executive-purple/30 text-executive-purple hover:bg-executive-purple/10 hover:shadow-purple-glow transition-all duration-300 ${
+                      tile.id === "meeting-summary" 
+                        ? "bg-executive-purple/5" 
+                        : "bg-executive-teal/5 border-executive-teal/30 text-executive-teal hover:bg-executive-teal/10"
+                    }`}
+                    onClick={(e) => handleAIAssistant(e, tile.id === "meeting-summary" ? "post-meeting" : "pre-meeting")}
+                  >
+                    {tile.id === "meeting-summary" ? (
+                      <>
+                        <Mic className="h-4 w-4 mr-2" />
+                        🎙️ Ask AI: What happened in Meeting X?
+                      </>
+                    ) : (
+                      <>
+                        <Brain className="h-4 w-4 mr-2" />
+                        🤖 Ask AI: What should I know before Meeting X?
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+      
+      <VoiceAssistantDialog
+        open={assistantOpen}
+        onOpenChange={setAssistantOpen}
+        mode={assistantMode}
+      />
+    </>
   );
 };
