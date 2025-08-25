@@ -39,7 +39,7 @@ const Index = () => {
               <p className="text-muted-foreground mt-1">Your CEO command center for strategic leadership and operational excellence</p>
             </div>
             <div className="text-right">
-              <div className="text-sm text-muted-foreground">Week of</div>
+              <div className="text-sm text-muted-foreground"></div>
               <div className="text-lg font-semibold text-executive-gold">{format(new Date(), 'MMMM d, yyyy')}</div>
             </div>
           </div>
