@@ -25,9 +25,52 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
   const [modalStep, setModalStep] = useState<"initial" | "confirmation">("initial");
+  const [recognition, setRecognition] = useState<any>(null);
   const { toast } = useToast();
 
   const teams = ["HR Team", "Strategy Team", "Marketing Team", "Product Team"];
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const speechRecognition = new SpeechRecognition();
+      
+      speechRecognition.continuous = true;
+      speechRecognition.interimResults = true;
+      speechRecognition.lang = 'en-US';
+      
+      speechRecognition.onresult = (event: any) => {
+        let finalTranscript = '';
+        let interimTranscript = '';
+        
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+        
+        setTranscription(finalTranscript + interimTranscript);
+      };
+      
+      speechRecognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+        setPhase("listening");
+      };
+      
+      speechRecognition.onend = () => {
+        if (isListening) {
+          speechRecognition.start(); // Restart if we're still supposed to be listening
+        }
+      };
+      
+      setRecognition(speechRecognition);
+    }
+  }, [isListening]);
 
   // Reset state when dialog opens
   useEffect(() => {
@@ -39,8 +82,22 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
       setActiveModal(null);
       setSelectedTeams([]);
       setModalStep("initial");
+      
+      // Stop recognition if it's running
+      if (recognition) {
+        recognition.stop();
+      }
     }
-  }, [open]);
+  }, [open, recognition]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (recognition) {
+        recognition.stop();
+      }
+    };
+  }, [recognition]);
 
   // Auto-dismiss modals after 3 seconds
   useEffect(() => {
@@ -54,38 +111,38 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   }, [activeModal]);
 
   const toggleListening = () => {
+    if (!recognition) {
+      alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
+      return;
+    }
+
     if (!isListening) {
       setIsListening(true);
       setPhase("listening");
       setTranscription("");
       setAiResponse("");
-      simulateTranscription();
+      
+      try {
+        recognition.start();
+      } catch (error) {
+        console.error('Failed to start speech recognition:', error);
+        setIsListening(false);
+        setPhase("listening");
+      }
     } else {
       setIsListening(false);
-      setPhase("processing");
-      setTimeout(() => {
-        setPhase("response");
-        generateAIResponse();
-      }, 1500);
+      recognition.stop();
+      
+      if (transcription.trim()) {
+        setPhase("processing");
+        setTimeout(() => {
+          setPhase("response");
+          generateAIResponse();
+        }, 1500);
+      } else {
+        setPhase("listening");
+      }
     }
-  };
-
-  const simulateTranscription = () => {
-    const sampleQuestions = {
-      "post-meeting": "What were the key decisions made in the board meeting today?",
-      "pre-meeting": "What should I know before my meeting with the Fortune 100 retailer?"
-    };
-    
-    const text = sampleQuestions[mode];
-    let currentText = "";
-    
-    const words = text.split(" ");
-    words.forEach((word, index) => {
-      setTimeout(() => {
-        currentText += (index > 0 ? " " : "") + word;
-        setTranscription(currentText);
-      }, index * 300 + 500);
-    });
   };
 
   const generateAIResponse = () => {
