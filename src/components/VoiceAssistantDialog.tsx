@@ -490,7 +490,13 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
                             <Checkbox
                               id={team}
                               checked={selectedTeams.includes(team)}
-                              onCheckedChange={() => handleTeamToggle(team)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setSelectedTeams(prev => [...prev, team]);
+                                } else {
+                                  setSelectedTeams(prev => prev.filter(t => t !== team));
+                                }
+                              }}
                               className="data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
                             />
                             <label htmlFor={team} className="text-sm cursor-pointer" style={{ color: '#00E0FF' }}>
@@ -501,9 +507,10 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
                       </div>
                     </div>
                     <div className="flex space-x-3">
-                      <button
+                      <Button
                         onClick={closeModal}
-                        className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95"
+                        variant="outline"
+                        className="px-4 py-2"
                         style={{
                           borderColor: '#666',
                           color: '#999',
@@ -511,21 +518,20 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
                         }}
                       >
                         Cancel
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={handleSendToTeams}
                         disabled={selectedTeams.length === 0}
-                        className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95 disabled:opacity-50"
+                        variant="outline"
+                        className="px-4 py-2 disabled:opacity-50"
                         style={{
                           borderColor: '#6c14dc',
                           color: '#6c14dc',
                           backgroundColor: 'transparent'
                         }}
-                        onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = '#6c14dc11')}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                       >
                         Send
-                      </button>
+                      </Button>
                     </div>
                   </>
                 ) : (
