@@ -128,12 +128,13 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
       {[...Array(8)].map((_, i) => (
         <div
           key={i}
-          className={`bg-assistant-accent rounded-full transition-all duration-300 ${
+          className={`rounded-full transition-all duration-300 ${
             isListening 
               ? 'animate-pulse h-8 w-1' 
               : 'h-2 w-1'
           }`}
           style={{
+            backgroundColor: '#00E0FF',
             animationDelay: `${i * 0.1}s`,
             height: isListening ? `${Math.random() * 32 + 8}px` : '8px'
           }}
@@ -146,24 +147,27 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
     <div className="flex items-center justify-center h-12">
       <div className={`rounded-full transition-all duration-1000 ${
         phase === "processing" 
-          ? 'bg-assistant-accent w-8 h-8 animate-pulse shadow-assistant-glow' 
-          : 'bg-assistant-accent/30 w-4 h-4'
-      }`} />
+          ? 'w-8 h-8 animate-pulse' 
+          : 'w-4 h-4'
+      }`} style={{
+        backgroundColor: phase === "processing" ? '#00E0FF' : '#00E0FF4d'
+      }} />
     </div>
   );
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg bg-assistant-bg border border-assistant-accent/20 shadow-assistant-glow">
+      <DialogContent className="sm:max-w-lg" style={{ backgroundColor: '#181818', borderColor: '#00E0FF33' }}>
         <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="text-assistant-accent font-medium">
+          <DialogTitle className="font-medium" style={{ color: '#00E0FF' }}>
             {mode === "post-meeting" ? "Post-Meeting Insight Assistant" : "Pre-Meeting Memory Assistant"}
           </DialogTitle>
           <Button
             variant="ghost"
             size="sm"
             onClick={handleReset}
-            className="text-assistant-accent/60 hover:text-assistant-accent hover:bg-assistant-accent/10"
+            className="hover:bg-transparent"
+            style={{ color: '#00E0FF66' }}
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
@@ -171,12 +175,12 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
         <div className="space-y-4 p-3">
           {/* Voice Capture Section */}
-          <div className="bg-assistant-bg/80 rounded p-4 border border-assistant-accent/20">
+          <div className="rounded p-4 border" style={{ backgroundColor: '#121212', borderColor: '#00E0FF33' }}>
             <div className="text-center space-y-4">
               {phase === "listening" && (
                 <>
                   <WaveformAnimation />
-                  <p className="text-sm text-assistant-accent">
+                  <p className="text-sm" style={{ color: '#00E0FF' }}>
                     {isListening ? "Listening... speak your question" : "Click to start speaking"}
                   </p>
                 </>
@@ -185,12 +189,12 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
               {phase === "processing" && (
                 <>
                   <PulsingOrb />
-                  <p className="text-sm text-assistant-accent">Processing your question...</p>
+                  <p className="text-sm" style={{ color: '#00E0FF' }}>Processing your question...</p>
                 </>
               )}
 
               {phase === "response" && (
-                <div className="text-sm text-assistant-accent">
+                <div className="text-sm" style={{ color: '#00E0FF' }}>
                   Response ready
                 </div>
               )}
@@ -198,11 +202,12 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
               <Button
                 onClick={toggleListening}
                 variant={isListening ? "destructive" : "default"}
-                className={`w-full ${
-                  isListening 
-                    ? "bg-red-500 hover:bg-red-600 text-white" 
-                    : "bg-assistant-accent hover:bg-assistant-accent/80 text-assistant-bg"
-                }`}
+                className="w-full"
+                style={{
+                  backgroundColor: isListening ? '#dc2626' : '#00E0FF',
+                  color: isListening ? '#ffffff' : '#181818',
+                  border: 'none'
+                }}
               >
                 {isListening ? "Stop Listening" : "Start Speaking"}
               </Button>
@@ -211,18 +216,18 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
           {/* Transcription Display */}
           {transcription && (
-            <div className="bg-assistant-bg/60 rounded p-3 border border-assistant-accent/20">
-              <h4 className="text-xs font-medium text-assistant-accent/80 mb-2">Live Transcription:</h4>
-              <p className="text-sm text-assistant-accent">{transcription}</p>
+            <div className="rounded p-3 border" style={{ backgroundColor: '#121212', borderColor: '#00E0FF33' }}>
+              <h4 className="text-xs font-medium mb-2" style={{ color: '#00E0FFcc' }}>Live Transcription:</h4>
+              <p className="text-sm" style={{ color: '#00E0FF' }}>{transcription}</p>
             </div>
           )}
 
           {/* AI Response */}
           {aiResponse && (
-            <div className="bg-assistant-bg/60 rounded p-4 border border-assistant-accent/20">
+            <div className="rounded p-4 border" style={{ backgroundColor: '#121212', borderColor: '#00E0FF33' }}>
               <div className="space-y-3">
-                <h4 className="text-sm font-medium text-assistant-accent">AI Assistant Response</h4>
-                <div className="text-sm text-assistant-accent whitespace-pre-line leading-relaxed">
+                <h4 className="text-sm font-medium" style={{ color: '#00E0FF' }}>AI Assistant Response</h4>
+                <div className="text-sm whitespace-pre-line leading-relaxed" style={{ color: '#00E0FF' }}>
                   {aiResponse}
                 </div>
               </div>
@@ -231,12 +236,12 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
           {/* Action Buttons */}
           {phase === "response" && (
-            <div className="flex justify-between items-center pt-3 border-t border-assistant-accent/20">
+            <div className="flex justify-between items-center pt-3 border-t" style={{ borderColor: '#00E0FF33' }}>
               <div className="flex space-x-2">
-                <Button variant="outline" size="sm" className="border-assistant-accent/40 text-assistant-accent hover:bg-assistant-accent/10">
+                <Button variant="outline" size="sm" className="border hover:bg-transparent" style={{ borderColor: '#00E0FF66', color: '#00E0FF' }}>
                   {mode === "post-meeting" ? "Save as Note" : "Save in Memory Bank"}
                 </Button>
-                <Button variant="outline" size="sm" className="border-assistant-accent/40 text-assistant-accent hover:bg-assistant-accent/10">
+                <Button variant="outline" size="sm" className="border hover:bg-transparent" style={{ borderColor: '#00E0FF66', color: '#00E0FF' }}>
                   {mode === "post-meeting" ? "Share with Team" : "Attach to Calendar"}
                 </Button>
               </div>
