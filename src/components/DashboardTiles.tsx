@@ -50,7 +50,7 @@ export const DashboardTiles = () => {
     },
     {
       id: "topic-suggestions",
-      title: "Weekly CEO Insights",
+      title: "Friday Notes & Insights",
       description: "Employee engagement, competitor watch, market trends",
       icon: TrendingUp,
       gradient: "from-executive-charcoal to-executive-gold",
