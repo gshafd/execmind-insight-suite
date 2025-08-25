@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { X, RotateCcw, Check, Share, Calendar } from "lucide-react";
+import { X, RotateCcw, Check, Share, Calendar, Database } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "./ui/checkbox";
 
 interface VoiceAssistantDialogProps {
   open: boolean;
@@ -21,9 +22,12 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   const [transcription, setTranscription] = useState("");
   const [aiResponse, setAiResponse] = useState("");
   const [phase, setPhase] = useState<"listening" | "processing" | "response">("listening");
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState({ icon: "", text: "" });
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [selectedTeams, setSelectedTeams] = useState<string[]>([]);
+  const [modalStep, setModalStep] = useState<"initial" | "confirmation">("initial");
   const { toast } = useToast();
+
+  const teams = ["HR Team", "Strategy Team", "Marketing Team", "Product Team"];
 
   // Reset state when dialog opens
   useEffect(() => {
@@ -32,8 +36,22 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
       setTranscription("");
       setAiResponse("");
       setPhase("listening");
+      setActiveModal(null);
+      setSelectedTeams([]);
+      setModalStep("initial");
     }
   }, [open]);
+
+  // Auto-dismiss modals after 3 seconds
+  useEffect(() => {
+    if (activeModal && activeModal !== "share-team") {
+      const timer = setTimeout(() => {
+        setActiveModal(null);
+        setModalStep("initial");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeModal]);
 
   const toggleListening = () => {
     if (!isListening) {
@@ -128,33 +146,43 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
   };
 
   const handleSaveAsNote = () => {
-    setModalContent({ icon: "✅", text: "Note Saved Successfully" });
-    setShowModal(true);
-    setTimeout(() => {
-      setShowModal(false);
-    }, 2000);
+    setActiveModal("save-note");
   };
 
   const handleShareWithTeam = () => {
-    toast({
-      title: "📤 Shared with Team",
-      duration: 2000,
-    });
+    setActiveModal("share-team");
+    setModalStep("initial");
+    setSelectedTeams([]);
   };
 
   const handleAddToCalendar = () => {
-    setModalContent({ icon: "📅", text: "Added to your calendar" });
-    setShowModal(true);
-    setTimeout(() => {
-      setShowModal(false);
-    }, 2000);
+    setActiveModal("add-calendar");
   };
 
   const handleSaveInMemory = () => {
-    toast({
-      title: "✅ Saved in Memory",
-      duration: 2000,
-    });
+    setActiveModal("save-memory");
+  };
+
+  const handleTeamToggle = (team: string) => {
+    setSelectedTeams(prev => 
+      prev.includes(team) 
+        ? prev.filter(t => t !== team)
+        : [...prev, team]
+    );
+  };
+
+  const handleSendToTeams = () => {
+    setModalStep("confirmation");
+    setTimeout(() => {
+      setActiveModal(null);
+      setModalStep("initial");
+    }, 3000);
+  };
+
+  const closeModal = () => {
+    setActiveModal(null);
+    setModalStep("initial");
+    setSelectedTeams([]);
   };
 
   const WaveformAnimation = () => (
@@ -318,25 +346,158 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
         </div>
       </DialogContent>
       
-      {/* Success Modal */}
-      {showModal && (
+      {/* Action Modals */}
+      {activeModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+          onClick={closeModal}
         >
           <div 
-            className="bg-dark border rounded-lg p-6 text-center animate-fade-in"
+            className="bg-dark border rounded-lg p-6 text-center max-w-md w-full mx-4"
             style={{ 
               backgroundColor: '#181818', 
-              borderColor: '#00E0FF33',
-              maxWidth: '320px',
-              animation: 'fadeIn 0.3s ease-out'
+              borderColor: '#6c14dc33',
             }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-3xl mb-3">{modalContent.icon}</div>
-            <p className="text-sm font-medium" style={{ color: '#00E0FF' }}>
-              {modalContent.text}
-            </p>
+            {/* Save as Note Modal */}
+            {activeModal === "save-note" && (
+              <>
+                <div className="text-lg font-semibold mb-4" style={{ color: '#6c14dc' }}>Save as Note</div>
+                <div className="text-4xl mb-4">✅</div>
+                <p className="text-sm mb-6" style={{ color: '#00E0FF' }}>
+                  Your note has been saved successfully.
+                </p>
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95"
+                  style={{
+                    borderColor: '#6c14dc',
+                    color: '#6c14dc',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6c14dc11'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  Close
+                </button>
+              </>
+            )}
+
+            {/* Share with Team Modal */}
+            {activeModal === "share-team" && (
+              <>
+                {modalStep === "initial" ? (
+                  <>
+                    <div className="text-lg font-semibold mb-4" style={{ color: '#6c14dc' }}>Share with Team</div>
+                    <div className="text-4xl mb-4" style={{ color: '#6c14dc' }}>📤</div>
+                    <div className="text-left mb-6">
+                      <p className="text-sm mb-3" style={{ color: '#00E0FF' }}>Select teams to share with:</p>
+                      <div className="space-y-2 bg-black/20 p-3 rounded border" style={{ borderColor: '#6c14dc33' }}>
+                        {teams.map((team) => (
+                          <div key={team} className="flex items-center space-x-2">
+                            <Checkbox
+                              id={team}
+                              checked={selectedTeams.includes(team)}
+                              onCheckedChange={() => handleTeamToggle(team)}
+                              className="data-[state=checked]:bg-purple-600 data-[state=checked]:border-purple-600"
+                            />
+                            <label htmlFor={team} className="text-sm cursor-pointer" style={{ color: '#00E0FF' }}>
+                              {team}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={closeModal}
+                        className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95"
+                        style={{
+                          borderColor: '#666',
+                          color: '#999',
+                          backgroundColor: 'transparent'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSendToTeams}
+                        disabled={selectedTeams.length === 0}
+                        className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95 disabled:opacity-50"
+                        style={{
+                          borderColor: '#6c14dc',
+                          color: '#6c14dc',
+                          backgroundColor: 'transparent'
+                        }}
+                        onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = '#6c14dc11')}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-4xl mb-4">✅</div>
+                    <p className="text-sm" style={{ color: '#00E0FF' }}>
+                      Shared successfully with {selectedTeams.join(', ')}.
+                    </p>
+                  </>
+                )}
+              </>
+            )}
+
+            {/* Add to Calendar Modal */}
+            {activeModal === "add-calendar" && (
+              <>
+                <div className="text-lg font-semibold mb-4" style={{ color: '#6c14dc' }}>Add to Calendar</div>
+                <div className="text-4xl mb-4" style={{ color: '#6c14dc' }}>📅</div>
+                <p className="text-sm mb-4" style={{ color: '#00E0FF' }}>
+                  Meeting added to your calendar.
+                </p>
+                <div className="text-2xl mb-6">✅</div>
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95"
+                  style={{
+                    borderColor: '#6c14dc',
+                    color: '#6c14dc',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6c14dc11'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  Close
+                </button>
+              </>
+            )}
+
+            {/* Save in Memory Modal */}
+            {activeModal === "save-memory" && (
+              <>
+                <div className="text-lg font-semibold mb-4" style={{ color: '#6c14dc' }}>Save in Memory</div>
+                <div className="text-4xl mb-4">💾</div>
+                <p className="text-sm mb-4" style={{ color: '#00E0FF' }}>
+                  Insight has been saved to your memory.
+                </p>
+                <div className="text-2xl mb-6">✅</div>
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95"
+                  style={{
+                    borderColor: '#6c14dc',
+                    color: '#6c14dc',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6c14dc11'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  Close
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
