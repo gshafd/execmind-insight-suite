@@ -96,7 +96,7 @@ export const DashboardTiles = () => {
             >
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <div className={`p-3 rounded-lg bg-gradient-to-r ${tile.gradient}`}>
+                <div className="p-3 rounded-lg bg-primary">
                   <Icon className="h-6 w-6 text-white opacity-100" />
                 </div>
                 <Badge className="bg-executive-gold text-executive-navy font-semibold">
