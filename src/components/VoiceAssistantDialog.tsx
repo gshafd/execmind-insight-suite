@@ -306,30 +306,28 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg" style={{ backgroundColor: '#181818', borderColor: '#00E0FF33' }}>
+      <DialogContent className="sm:max-w-lg bg-card border-border" style={{ borderColor: 'hsl(var(--border))' }}>
         <DialogHeader className="flex flex-row items-center justify-between">
-          <DialogTitle className="font-medium" style={{ color: '#00E0FF' }}>
+          <DialogTitle className="font-medium text-primary">
             {mode === "post-meeting" ? "Post-Meeting Insight Assistant" : "Pre-Meeting Memory Assistant"}
           </DialogTitle>
           <Button
             variant="ghost"
             size="sm"
             onClick={handleReset}
-            className="hover:bg-transparent"
-            style={{ color: '#00E0FF66' }}
-          >
+            className="hover:bg-muted text-muted-foreground">
             <RotateCcw className="h-4 w-4" />
           </Button>
         </DialogHeader>
 
         <div className="space-y-4 p-3">
           {/* Voice Capture Section */}
-          <div className="rounded p-4 border" style={{ backgroundColor: '#121212', borderColor: '#00E0FF33' }}>
+          <div className="rounded p-4 border bg-muted/50 border-border">
             <div className="text-center space-y-4">
               {phase === "listening" && (
                 <>
                   <WaveformAnimation />
-                  <p className="text-sm" style={{ color: '#00E0FF' }}>
+                  <p className="text-sm text-primary">
                     {isRecognitionActiveRef.current || isListening ? "Listening... speak your question" : "Click to start speaking"}
                   </p>
                 </>
@@ -338,12 +336,12 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
               {phase === "processing" && (
                 <>
                   <PulsingOrb />
-                  <p className="text-sm" style={{ color: '#00E0FF' }}>Processing your question...</p>
+                  <p className="text-sm text-primary">Processing your question...</p>
                 </>
               )}
 
               {phase === "response" && (
-                <div className="text-sm" style={{ color: '#00E0FF' }}>
+                <div className="text-sm text-primary">
                   Response ready
                 </div>
               )}
@@ -351,12 +349,7 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
               <Button
                 onClick={toggleListening}
                 variant={isListening ? "destructive" : "default"}
-                className="w-full"
-                style={{
-                  backgroundColor: isListening ? '#dc2626' : '#00E0FF',
-                  color: isListening ? '#ffffff' : '#181818',
-                  border: 'none'
-                }}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 {isRecognitionActiveRef.current || isListening ? "Stop Listening" : "Start Speaking"}
               </Button>
@@ -365,18 +358,18 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
           {/* Transcription Display */}
           {transcription && (
-            <div className="rounded p-3 border" style={{ backgroundColor: '#121212', borderColor: '#00E0FF33' }}>
-              <h4 className="text-xs font-medium mb-2" style={{ color: '#00E0FFcc' }}>Live Transcription:</h4>
-              <p className="text-sm" style={{ color: '#00E0FF' }}>{transcription}</p>
+            <div className="rounded p-3 border bg-muted/50 border-border">
+              <h4 className="text-xs font-medium mb-2 text-muted-foreground">Live Transcription:</h4>
+              <p className="text-sm text-foreground">{transcription}</p>
             </div>
           )}
 
           {/* AI Response */}
           {aiResponse && (
-            <div className="rounded p-4 border" style={{ backgroundColor: '#121212', borderColor: '#00E0FF33' }}>
+            <div className="rounded p-4 border bg-muted/50 border-border">
               <div className="space-y-3">
-                <h4 className="text-sm font-medium" style={{ color: '#00E0FF' }}>AI Assistant Response</h4>
-                <div className="text-sm whitespace-pre-line leading-relaxed" style={{ color: '#00E0FF' }}>
+                <h4 className="text-sm font-medium text-foreground">AI Assistant Response</h4>
+                <div className="text-sm whitespace-pre-line leading-relaxed text-foreground">
                   {aiResponse}
                 </div>
               </div>
@@ -385,48 +378,22 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
 
           {/* Action Buttons */}
           {phase === "response" && (
-            <div className="flex justify-between items-center pt-3 border-t" style={{ borderColor: '#00E0FF33' }}>
+            <div className="flex justify-between items-center pt-3 border-t border-border">
               <div className="flex space-x-2">
-                <button
+                <Button
                   onClick={mode === "post-meeting" ? handleSaveAsNote : handleSaveInMemory}
-                  className="px-3 py-2 text-sm font-medium rounded-md border transition-all duration-200 hover:shadow-md active:scale-95"
-                  style={{
-                    borderColor: '#00E0FF66',
-                    color: '#00E0FF',
-                    backgroundColor: 'transparent',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#00E0FF11';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }}
+                  variant="outline"
+                  className="px-3 py-2 text-sm font-medium border-primary text-primary hover:bg-primary/10"
                 >
                   {mode === "post-meeting" ? "Save as Note" : "Save in Memory"}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={mode === "post-meeting" ? handleShareWithTeam : handleAddToCalendar}
-                  className="px-3 py-2 text-sm font-medium rounded-md border transition-all duration-200 hover:shadow-md active:scale-95"
-                  style={{
-                    borderColor: '#00E0FF66',
-                    color: '#00E0FF',
-                    backgroundColor: 'transparent',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#00E0FF11';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                  }}
+                  variant="outline"
+                  className="px-3 py-2 text-sm font-medium border-primary text-primary hover:bg-primary/10"
                 >
                   {mode === "post-meeting" ? "Share with Team" : "Add to Calendar"}
-                </button>
+                </Button>
               </div>
             </div>
           )}
@@ -444,34 +411,24 @@ export const VoiceAssistantDialog: React.FC<VoiceAssistantDialogProps> = ({
           onClick={closeModal}
         >
           <div 
-            className="bg-dark border rounded-lg p-6 text-center max-w-md w-full mx-4"
-            style={{ 
-              backgroundColor: '#181818', 
-              borderColor: '#6c14dc33',
-            }}
+            className="bg-card border border-border rounded-lg p-6 text-center max-w-md w-full mx-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Save as Note Modal */}
             {activeModal === "save-note" && (
               <>
-                <div className="text-lg font-semibold mb-4" style={{ color: '#6c14dc' }}>Save as Note</div>
+                <div className="text-lg font-semibold mb-4 text-primary">Save as Note</div>
                 <div className="text-4xl mb-4">✅</div>
-                <p className="text-sm mb-6" style={{ color: '#00E0FF' }}>
+                <p className="text-sm mb-6 text-foreground">
                   Your note has been saved successfully.
                 </p>
-                <button
+                <Button
                   onClick={closeModal}
-                  className="px-4 py-2 rounded-md border transition-all duration-200 active:scale-95"
-                  style={{
-                    borderColor: '#6c14dc',
-                    color: '#6c14dc',
-                    backgroundColor: 'transparent'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6c14dc11'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary/10"
                 >
                   Close
-                </button>
+                </Button>
               </>
             )}
 

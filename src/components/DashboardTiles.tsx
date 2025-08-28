@@ -113,11 +113,11 @@ export const DashboardTiles = () => {
             <CardContent>
               <div className="flex justify-between text-sm">
                 <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4 text-executive-teal" />
+                  <Clock className="h-4 w-4 text-primary" />
                   <span className="text-foreground">Recent Activity</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Star className="h-4 w-4 text-executive-gold" />
+                  <Star className="h-4 w-4 text-primary" />
                   <span className="text-executive-gold font-semibold">
                     {Object.values(tile.stats)[0]}
                   </span>
@@ -131,31 +131,7 @@ export const DashboardTiles = () => {
               {(tile.id === "meeting-summary" || tile.id === "meeting-brief") && (
                 <div className="mt-3">
                   <button
-                    className="ai-assistant-button"
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      borderRadius: '8px',
-                      backgroundColor: '#181818',
-                      border: '1px solid #2A2A2A',
-                      color: '#00E0FF',
-                      fontFamily: 'Inter, system-ui, sans-serif',
-                      fontSize: '14px',
-                      fontWeight: '500',
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      overflowWrap: 'break-word',
-                      wordBreak: 'break-word'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = '0 0 8px #00E0FF40';
-                      e.currentTarget.style.borderColor = '#00E0FF';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = 'none';
-                      e.currentTarget.style.borderColor = '#2A2A2A';
-                    }}
+                    className="ai-assistant-button w-full p-3 rounded-lg border border-primary bg-card text-primary font-medium text-sm transition-all duration-200 hover:bg-primary/10 hover:shadow-glow"
                     onClick={(e) => handleAIAssistant(e, tile.id === "meeting-summary" ? "post-meeting" : "pre-meeting")}
                   >
                     {tile.id === "meeting-summary" 
