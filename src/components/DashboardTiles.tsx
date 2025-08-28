@@ -97,7 +97,7 @@ export const DashboardTiles = () => {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <div className={`p-3 rounded-lg bg-gradient-to-r ${tile.gradient}`}>
-                  <Icon className="h-6 w-6 text-white" />
+                  <Icon className="h-6 w-6 text-white opacity-100" />
                 </div>
                 <Badge className="bg-executive-gold text-executive-navy font-semibold">
                   Active
@@ -113,11 +113,11 @@ export const DashboardTiles = () => {
             <CardContent>
               <div className="flex justify-between text-sm">
                 <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4 text-primary" />
+                  <Clock className="h-4 w-4 text-primary opacity-100" />
                   <span className="text-foreground">Recent Activity</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Star className="h-4 w-4 text-primary" />
+                  <Star className="h-4 w-4 text-primary opacity-100" />
                   <span className="text-executive-gold font-semibold">
                     {Object.values(tile.stats)[0]}
                   </span>
