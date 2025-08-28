@@ -8,43 +8,43 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* ExecMind Premium Executive Theme */
-    --background: 220 20% 8%;
-    --foreground: 210 40% 98%;
+    /* ExecMind Light Executive Theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
 
-    --card: 220 15% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
 
-    --popover: 220 15% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
 
-    --primary: 270 85% 47%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 270 76% 49%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 180 65% 45%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 270 10% 95%;
+    --secondary-foreground: 270 76% 49%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 270 10% 95%;
+    --muted-foreground: 240 5% 46%;
 
-    --accent: 180 65% 45%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 270 10% 95%;
+    --accent-foreground: 270 76% 49%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 270 85% 47%;
+    --border: 270 10% 90%;
+    --input: 270 10% 90%;
+    --ring: 270 76% 49%;
 
     /* Executive Design Tokens */
-    --executive-navy: 220 20% 8%;
-    --executive-charcoal: 220 15% 12%;
-    --executive-gold: 270 85% 47%;
-    --executive-purple: 270 85% 47%;
-    --executive-teal: 180 65% 45%;
-    --executive-accent: 220 15% 18%;
-    --executive-surface: 220 15% 15%;
+    --executive-navy: 0 0% 100%;
+    --executive-charcoal: 270 10% 98%;
+    --executive-gold: 270 76% 49%;
+    --executive-purple: 270 76% 49%;
+    --executive-teal: 270 50% 65%;
+    --executive-accent: 270 10% 95%;
+    --executive-surface: 270 10% 98%;
     
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(var(--executive-navy)), hsl(var(--executive-charcoal)));
@@ -52,9 +52,9 @@ All colors MUST be HSL.
     --gradient-accent: linear-gradient(90deg, hsl(var(--executive-gold)), hsl(var(--executive-teal)));
     
     /* Shadows */
-    --shadow-premium: 0 10px 40px -10px hsl(var(--executive-navy) / 0.4);
-    --shadow-card: 0 4px 20px -4px hsl(var(--executive-navy) / 0.3);
-    --shadow-glow: 0 0 20px hsl(var(--executive-gold) / 0.2);
+    --shadow-premium: 0 10px 40px -10px hsl(var(--executive-purple) / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(var(--executive-purple) / 0.1);
+    --shadow-glow: 0 0 20px hsl(var(--executive-purple) / 0.2);
     --shadow-purple-glow: 0 0 15px hsl(var(--executive-purple) / 0.3);
 
     --radius: 0.5rem;
