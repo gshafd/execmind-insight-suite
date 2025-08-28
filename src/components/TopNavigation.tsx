@@ -78,9 +78,9 @@ export const TopNavigation = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-              <Avatar className="h-10 w-10 border-2 border-executive-gold">
+              <Avatar className="h-10 w-10 border-2 border-primary">
                 <AvatarImage src="/placeholder.svg" alt="Marc" />
-                <AvatarFallback className="bg-executive-gold text-executive-navy font-semibold">
+                <AvatarFallback className="bg-white text-primary font-semibold">
                   M
                 </AvatarFallback>
               </Avatar>
